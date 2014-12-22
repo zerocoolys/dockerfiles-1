@@ -2,7 +2,11 @@ FROM itzg/ubuntu-openjdk-7
 
 MAINTAINER itzg
 
-RUN apt-get install -y wget && apt-get clean
+ENV ES_VERSION 1.3.7
+
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y wget && \
+  apt-get clean
 
 ENV ES_VERSION 1.3.6
 
