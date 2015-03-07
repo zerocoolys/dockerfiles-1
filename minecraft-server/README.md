@@ -123,8 +123,7 @@ the `/path/on/host` folder contents look like:
 If you add mods while the container is running, you'll need to restart it to pick those
 up:
 
-    docker stop $ID
-    docker start $ID
+    docker restart $ID
 
 ## Server configuration
 
