@@ -1,8 +1,8 @@
-FROM itzg/ubuntu-openjdk-7
+FROM java:8-jre 
 
-MAINTAINER itzg
+MAINTAINER Jason
 
-ENV ES_VERSION 1.5.2
+ENV ES_VERSION 2.0.0
 
 RUN wget -qO /tmp/es.tgz https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz && \
   cd /usr/share && \
@@ -13,6 +13,11 @@ ENV ES_HOME /usr/share/elasticsearch-$ES_VERSION
 RUN useradd -d $ES_HOME -M -r elasticsearch && \
   chown -R elasticsearch: $ES_HOME
 
+RUN $ES_HOME/bin/plugin install lmenezes/elasticsearch-kopf/2.0
+RUN $ES_HOME/bin/plugin install mobz/elasticsearch-head
+RUN $ES_HOME/bin/plugin install license
+RUN $ES_HOME/bin/plugin install marvel-agent
+
 RUN mkdir /data /conf && touch /data/.CREATED /conf/.CREATED && chown -R elasticsearch: /data /conf
 VOLUME ["/data","/conf"]
 
@@ -21,6 +26,6 @@ ADD start /start
 WORKDIR $ES_HOME
 USER elasticsearch
 
-EXPOSE 9200 9300
+#EXPOSE 9200 9300
 
 CMD ["/start"]
