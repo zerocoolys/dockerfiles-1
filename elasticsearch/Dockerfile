@@ -33,6 +33,7 @@ RUN $ES_HOME/bin/plugin install lmenezes/elasticsearch-kopf/2.0
 RUN $ES_HOME/bin/plugin install mobz/elasticsearch-head
 RUN $ES_HOME/bin/plugin install license
 RUN $ES_HOME/bin/plugin install marvel-agent
+RUN $ES_HOME/bin/plugin install mapper-murmur3
 
 RUN mkdir /data /conf & chown elasticsearch: /data /conf
 VOLUME ["/data","/conf"]
