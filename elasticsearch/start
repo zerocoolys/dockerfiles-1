@@ -10,9 +10,16 @@ fi
 
 OPTS="-Des.path.conf=/conf \
   -Des.path.data=/data \
-  -Des.path.logs=/data \
-  -Des.transport.tcp.port=9300 \
-  -Des.http.port=9200"
+  -Des.path.logs=/data" 
+
+OPTS="$OPTS -Des.insecure.allow.root=true"
+if [ -n "$NODE_PORT" ]; then
+  OPTS="$OPTS -Des.transport.tcp.port=$NODE_PORT"
+fi
+
+if [ -n "$HTTP_PORT" ]; then
+  OPTS="$OPTS -Des.http.port=$HTTP_PORT"
+fi	
 
 if [ -n "$CLUSTER" ]; then
   OPTS="$OPTS -Des.cluster.name=$CLUSTER"
@@ -27,8 +34,8 @@ if [ -n "$UNICAST_HOSTS" ]; then
 fi
 
 if [ -n "$PUBLISH_AS" ]; then
-  OPTS="$OPTS -Des.transport.publish_host=$(echo $PUBLISH_AS | awk -F: '{print $1}')"
-  OPTS="$OPTS -Des.transport.publish_port=$(echo $PUBLISH_AS | awk -F: '{if ($2) print $2; else print 9300}')"
+  OPTS="$OPTS --network.host $PUBLISH_AS "
+  #OPTS="$OPTS -Des.transport.publish_port=$(echo $PUBLISH_AS | awk -F: '{if ($2) print $2; else print 9300}')"
 fi
 
 echo "Starting Elasticsearch with the options $OPTS"
